@@ -1,4 +1,4 @@
-baseURL = ""
+baseURL = "https://bing-bai.github.io/blog/"
 languageCode = "en-us"
 title = "My New Hugo Site"
 Theme = "Hugo-notepadium"
