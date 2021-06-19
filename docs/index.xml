@@ -5,6 +5,35 @@
     <link>https://bing-bai.github.io/blog/</link>
     <description>Recent content on Bing BAI</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://bing-bai.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Sat, 19 Jun 2021 21:24:38 +0900</lastBuildDate><atom:link href="https://bing-bai.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hyper Parameter Optimization</title>
+      <link>https://bing-bai.github.io/blog/posts/hyper-parameter-optimization/</link>
+      <pubDate>Sat, 19 Jun 2021 21:24:38 +0900</pubDate>
+      
+      <guid>https://bing-bai.github.io/blog/posts/hyper-parameter-optimization/</guid>
+      <description>Hyper-parameter Optimization HP categories to be optimized  Table of principal HPs grouped by role and domain     hp-parameter example     continuous learning rate   Discrete poolSize, kernal size, sliding, hcHidden, data batch, numEpoch   categorical Choice of optimizer, Activation function   binary whether to early stop    Existing Methods summary Table. 1: comparison of common HPO algorithm (n is the number of hyper-parameter values and k is the number of hyper-parameters)</description>
+    </item>
+    
+    <item>
+      <title>Model Compression</title>
+      <link>https://bing-bai.github.io/blog/posts/first-post/</link>
+      <pubDate>Sat, 19 Jun 2021 18:39:43 +0900</pubDate>
+      
+      <guid>https://bing-bai.github.io/blog/posts/first-post/</guid>
+      <description>Model Compression Introduction Choudhary+, [A comprehensive survey on model compression and acceleration](https://link.springer.com/content/pdf/10.1007/s10462-020-09816-7.pdf), Artifcial Intelligence Review 2020 Table 2: summary of different methods for network compression.
+   Method strengths limitations     Knowledge Distill Can downsize a network regardless of the structural difference between the teacher and the student network can only be applied to classification tasks with softmax loss function   Low-Rank Factorization standard pipepline performed layer by layer, cannot perform global parameter compression   Data quantization significantly reduced memory usage and float-point operations Quantized weights make neural networks harder to converge   Pruning Can improve the inference time and model size vs accuracy tradeoff for a given architecture Generally, does not help as much as switching to a better architecture    Cheng+, Model Compression and Acceleration for Deep Neural Networks: The Principles, Progress, and Challenges, Vol.</description>
+    </item>
+    
+    <item>
+      <title>Profile</title>
+      <link>https://bing-bai.github.io/blog/posts/profile/</link>
+      <pubDate>Sat, 19 Jun 2021 18:34:05 +0900</pubDate>
+      
+      <guid>https://bing-bai.github.io/blog/posts/profile/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

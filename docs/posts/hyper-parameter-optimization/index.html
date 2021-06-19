@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>
+      
+          Hyper Parameter Optimization - Bing BAI
+      
+  </title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Bing BAI" />
+  <link rel="shortcut icon" type="image/x-icon" href="https://bing-bai.github.io/blog/img/favicon.ico">
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://bing-bai.github.io/blog/style.min.39acacc5d2051426f655a6b7fbf4786fbd0fd8fffd09322c9b497ef0f7439b3f.css" integrity="sha256-OaysxdIFFCb2Vaa3&#43;/R4b70P2P/9CTIsm0l&#43;8PdDmz8=">
+  
+  
+  
+  <link rel="stylesheet" href="https://bing-bai.github.io/blog/style-dark.min.0a647fb6c07e04b77b54fa0515d0a683d39ecdb251dba960fe1f966f7ff36fc2.css" media="(prefers-color-scheme: dark)" integrity="sha256-CmR/tsB&#43;BLd7VPoFFdCmg9OezbJR26lg/h&#43;Wb3/zb8I=">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  
+  
+
+  <meta property="og:title" content="Hyper Parameter Optimization" />
+<meta property="og:description" content="Hyper-parameter Optimization HP categories to be optimized  Table of principal HPs grouped by role and domain     hp-parameter example     continuous learning rate   Discrete poolSize, kernal size, sliding, hcHidden, data batch, numEpoch   categorical Choice of optimizer, Activation function   binary whether to early stop    Existing Methods summary Table. 1: comparison of common HPO algorithm (n is the number of hyper-parameter values and k is the number of hyper-parameters)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bing-bai.github.io/blog/posts/hyper-parameter-optimization/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-19T21:24:38&#43;09:00" />
+<meta property="article:modified_time" content="2021-06-19T21:24:38&#43;09:00" />
+
+<meta itemprop="name" content="Hyper Parameter Optimization">
+<meta itemprop="description" content="Hyper-parameter Optimization HP categories to be optimized  Table of principal HPs grouped by role and domain     hp-parameter example     continuous learning rate   Discrete poolSize, kernal size, sliding, hcHidden, data batch, numEpoch   categorical Choice of optimizer, Activation function   binary whether to early stop    Existing Methods summary Table. 1: comparison of common HPO algorithm (n is the number of hyper-parameter values and k is the number of hyper-parameters)"><meta itemprop="datePublished" content="2021-06-19T21:24:38&#43;09:00" />
+<meta itemprop="dateModified" content="2021-06-19T21:24:38&#43;09:00" />
+<meta itemprop="wordCount" content="1084">
+<meta itemprop="keywords" content="markdown,machine learning," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:image" content="https://bing-bai.github.io/blog//img/avatar.jpg"/>
+<meta name="twitter:title" content="Hyper Parameter Optimization"/>
+<meta name="twitter:description" content="Hyper-parameter Optimization HP categories to be optimized  Table of principal HPs grouped by role and domain     hp-parameter example     continuous learning rate   Discrete poolSize, kernal size, sliding, hcHidden, data batch, numEpoch   categorical Choice of optimizer, Activation function   binary whether to early stop    Existing Methods summary Table. 1: comparison of common HPO algorithm (n is the number of hyper-parameter values and k is the number of hyper-parameters)"/>
+
+  <!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <![endif]-->
+
+  
+  
+</head>
+
+  <body>
+    
+  <h1>Hyper Parameter Optimization</h1>
+  <header>
+  
+  <div class="avatar">
+    <img class="avatarMask" src="https://bing-bai.github.io/blog//img/avatar.jpg" alt="M1 student @ Tokyo tech">
+    <a href="https://bing-bai.github.io/blog/"><img class="avatar-border" src="https://bing-bai.github.io/blog//img/avatar-border.svg" alt=""></a>
+  </div>
+  
+  <h2><a class="author" href="https://bing-bai.github.io/blog/">Bing BAI</a></h2>
+</header>
+
+  
+  
+  
+  <p class="date">June 19, 2021</p>
+  
+  
+  
+  <div id="tags">
+    <ul>
+      
+        
+        
+          <li><a href="https://bing-bai.github.io/blog/tags/markdown/">markdown</a></li>
+        
+      
+        
+        
+          <li><a href="https://bing-bai.github.io/blog/tags/machine-learning/">machine learning</a></li>
+        
+      
+    </ul>
+  </div>
+  
+  
+  <div id="contentBody">
+    <h2 id="hyper-parameter-optimization">Hyper-parameter Optimization</h2>
+<h3 id="hp-categories-to-be-optimized">HP categories to be optimized</h3>
+<ol>
+<li>Table of principal HPs grouped by role and domain</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>hp-parameter</th>
+<th>example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>continuous</td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td>Discrete</td>
+<td>poolSize, kernal size,  sliding, hcHidden, data batch, numEpoch</td>
+</tr>
+<tr>
+<td>categorical</td>
+<td>Choice of optimizer, Activation function</td>
+</tr>
+<tr>
+<td>binary</td>
+<td>whether to early stop</td>
+</tr>
+</tbody>
+</table>
+<h3 id="existing-methods">Existing Methods</h3>
+<h4 id="summary">summary</h4>
+<p>Table. 1: comparison of common HPO algorithm (n is the number of hyper-parameter values and k is the number of hyper-parameters)</p>
+<table>
+<thead>
+<tr>
+<th>HPO methods</th>
+<th>Strengths</th>
+<th>Limitations</th>
+<th>Time Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Grid Search</td>
+<td>Simple</td>
+<td>Time consuming; Only efficient with categorical HPs</td>
+<td>O(n^k)</td>
+</tr>
+<tr>
+<td>Random Search</td>
+<td>More efficient than GS</td>
+<td>Not consider previous results; Not efficient with conditional HPs.</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>Gradient-based models</td>
+<td>Fast convergence speed for continuous HPs</td>
+<td>Only support continuous HPs; May only detect local optimums</td>
+<td>O(n^k)</td>
+</tr>
+<tr>
+<td>BO-GP</td>
+<td>Fast convergence speed for continuous HPs</td>
+<td>Poor capacity for parallelization; Not efficient with conditional HPs.</td>
+<td>O(n^3)</td>
+</tr>
+<tr>
+<td>SMAC</td>
+<td>Efficient with all types of HPs</td>
+<td>Poor capacity for parallelization</td>
+<td>O(nlog(n))</td>
+</tr>
+<tr>
+<td>BO-TPE</td>
+<td>Efficient with all types of HPs;  Keep conditional dependencies.</td>
+<td>Poor capacity for parallelization</td>
+<td>O(nlog(n))</td>
+</tr>
+<tr>
+<td>Hyperband</td>
+<td>Enable parallelization</td>
+<td>Not efficient with conditional HPs; Require subsets with small budgets to be representative</td>
+<td>O(nlog(n))</td>
+</tr>
+<tr>
+<td>BOHB</td>
+<td>Efficient with all types of HPs</td>
+<td>Require subsets with small budgets to be representative.</td>
+<td>O(nlog(n))</td>
+</tr>
+<tr>
+<td>GA</td>
+<td>Efficient with all types of HPs; Not require good initialization</td>
+<td>Poor capacity for parallelization.</td>
+<td>O(n^2)</td>
+</tr>
+<tr>
+<td>PSO</td>
+<td>Efficient with all types of HPs; Enable parallelization</td>
+<td>Require proper initialization</td>
+<td>O (nlogn)</td>
+</tr>
+</tbody>
+</table>
+<p>Yang+, <a href="https://www.sciencedirect.com/science/article/abs/pii/S0925231220311693?casa_token=vCBDB7uhEc8AAAAA:LRUfJSQMmt_BE7qPpbxzXVDrCQDhapL5vkaQTGFgDp9DldPnfSPncqoMVBYkTV--rFDY1vqu7fo">On hyperparameter optimization of machine learning algorithms: Theory and practice</a>, Neurocomputing 2020</p>
+<h4 id="grid-search">Grid search</h4>
+<p>Grid Search performs an exhaustive search through a manually specified subset of the hyperparameter space defined in the searchspace file.
+<a href="https://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf">https://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf</a></p>
+<h4 id="random-search">Random Search</h4>
+<p>Random Search might be surprisingly effective despite its simplicity. We suggest using Random Search as a baseline when no knowledge about the prior distribution of hyper-parameters is available.
+Bergstra+, <a href="https://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf">Random Search for Hyper-Parameter Optimization</a>, Journal of Machine Learning Research Vol.13, pp. 281-305, 2012</p>
+<h4 id="gradient-based-optimization">Gradient-based optimization</h4>
+<p>First randomly selecting a data point, then moves towards the opposite direction of the largest gradient to locate the next data point. Therefore, a local optimum can be reached after convergence. The local optimum is also the global optimum for convex functions.</p>
+<h4 id="bayesian-optimization">Bayesian optimization</h4>
+<ul>
+<li>
+<p>summary: BO determines the future evaluation points based on the previously obtained results. To determine the next hyper-parameter configuration, BO uses two key components: a surrogate model and an acquisition function.</p>
+</li>
+<li>
+<p>procedure</p>
+<ul>
+<li>
+<ol>
+<li>Build a probabilistic surrogate model of the objective function.</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Detect the optimal hyper-parameter values on the surrogate model.</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Apply these hyper-parameter values to the real objective function to evaluate them.</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>Update the surrogate model with new results.</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>Repeat steps 2–4 until the maximum number of iterations is reached.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>BO-GP
+<a href="https://papers.nips.cc/paper/2011/file/86e8f7ab32cfd12577bc2619bc635690-Paper.pdf">https://papers.nips.cc/paper/2011/file/86e8f7ab32cfd12577bc2619bc635690-Paper.pdf</a>
+This is a sequential model-based optimization approach with Gaussian Process as the surrogate.</p>
+</li>
+<li>
+<p>SMAC
+<a href="https://www.cs.ubc.ca/~hutter/papers/10-TR-SMAC.pdf">https://www.cs.ubc.ca/~hutter/papers/10-TR-SMAC.pdf</a>
+SMAC is based on Sequential Model-Based Optimization (SMBO). It adapts the most prominent previously used model class (Gaussian stochastic process models) and introduces the model class of random forests to SMBO in order to handle categorical parameters.</p>
+</li>
+<li>
+<p>BO-TPE (Tree-structured Parzen Estimator)
+<a href="https://papers.nips.cc/paper/2011/file/86e8f7ab32cfd12577bc2619bc635690-Paper.pdf">https://papers.nips.cc/paper/2011/file/86e8f7ab32cfd12577bc2619bc635690-Paper.pdf</a>
+The Tree-structured Parzen Estimator (TPE) is a sequential model-based optimization (SMBO) approach. SMBO methods sequentially construct models to approximate the performance of hyperparameters based on historical measurements, and then subsequently choose new hyperparameters to test based on this model.
+The TPE approach models P(x|y) and P(y) where x represents hyperparameters and y the associated evaluation matric. P(x|y) is modeled by transforming the generative process of hyperparameters, replacing the distributions of the configuration prior with non-parametric densities.</p>
+</li>
+<li>
+<p>Hyperband
+<a href="https://arxiv.org/pdf/1603.06560.pdf">https://arxiv.org/pdf/1603.06560.pdf</a>
+Hyperband tries to use limited resources to explore as many configurations as possible and returns the most promising ones as a final result.
+The basic idea is to generate many configurations and run them for a small number of trials. The half least-promising configurations are thrown out, the remaining are further trained along with a selection of new configurations. The size of these populations is sensitive to resource constraints (e.g. allocated search time).</p>
+</li>
+<li>
+<p>BOHB(Bayesian Optimization Hyper Band)
+<a href="https://arxiv.org/pdf/1807.01774.pdf">https://arxiv.org/pdf/1807.01774.pdf</a>
+BO is an abbreviation for “Bayesian Optimization” and HB is an abbreviation for “Hyperband”.
+BOHB relies on HB to determine how many configurations to evaluate with which budget,
+<strong>but it replaces the random selection of configurations at the beginning of each HB iteration by a model-based search (Bayesian Optimization).</strong>
+Once the desired number of configurations for the iteration is reached, the standard successive halving procedure is carried out using these configurations. We keep track of the performance of all function evaluations g(x, b) of configurations x on all budgets b to use as a basis for our models in later iterations.
+HB part
+Follow HyperBand&rsquo;s way of choosing the budgets and continue to use SuccessiveHalving.
+<img width="528" alt="Screen Shot 2021-06-16 at 2.14.03.png (83.2 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/06/16/103347/c87f716d-4824-4b72-9651-b3999f6cbf13.png">
+It is initialized with a set of configurations, a minimum and maximum budget, and a scaling parameter η. In the first stage all configurations are evaluated on the smallest budget (line3).
+The losses are then sorted and only the best 1/η configurations are kept in the set C (line 4).
+For the following stage, the budget is increased by a factor of η (line 5).
+This is repeated until the maximum budget for a single configuration is reached (line 2).
+BO part
+Tree Parzen Estimator(TPE): uses a KDE (kernel density estimator) to model the densities.
+<img width="236" alt="Screen Shot 2021-06-16 at 2.58.08.png (20.8 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/06/16/103347/0cd1f35c-4c0e-4262-a298-39a06e0f6bb0.png"></p>
+</li>
+</ul>
+<p>Multidimensional KDE is used to guide the selection of configurations for the next iteration. The sampling procedure (using Multidimensional KDE to guide selection) is summarized by the pseudocode below.
+<img width="423" alt="Screen Shot 2021-06-16 at 2.45.58.png (121.9 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/06/16/103347/4b3ac567-d4ce-4ff8-ad5e-3c8a6104795c.png">
+To fit useful KDEs, we require a minimum number of data points Nmin; this is set to d + 1 for our experiments, where d is the number of hyperparameters. To build a model as early as possible, we do not wait until Nb = |Db|, where the number of observations for budget b is large enough to satisfy q · Nb ≥ Nmin. Instead, after initializing with Nmin + 2 random configurations, we choose the best and worst configurations respectively to model the two densities.
+<img width="375" alt="Screen Shot 2021-06-16 at 2.59.51.png (24.2 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/06/16/103347/6f7ac176-35a9-4863-b165-aaf4e2a72c4e.png">
+Workflow
+<img width="1280" alt="bohb_6.jpg (124.3 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/06/16/103347/34be100d-35df-4a82-8310-a858a7350a9d.jpg">
+This image shows the workflow of BOHB. Here we set max_budget = 9, min_budget = 1, eta = 3, others as default. In this case, s_max = 2, so we will continuously run the {s=2, s=1, s=0, s=2, s=1, s=0, …} cycle. In each stage of SuccessiveHalving (the orange box), we will pick the top 1/eta configurations and run them again with more budget, repeating the SuccessiveHalving stage until the end of this iteration. At the same time, we collect the configurations, budgets and final metrics of each trial and use these to build a multidimensional KDE model with the key “budget”.</p>
+<p><a href="https://github.com/automl/HpBandSter">opensourced code</a></p>
+<h4 id="metaheuristic-algorithms">Metaheuristic algorithms</h4>
+<ul>
+<li>GA (genetic algorithm)</li>
+<li>PSO (Particle Swarm Optimization)</li>
+</ul>
+
+  </div>
+  <footer>
+  <p>
+  &copy; 2021 Bing BAI.
+  Powered by <a href="https://gohugo.io/">Hugo</a>
+  using the <a href="https://github.com/koirand/pulp/">pulp</a> theme.
+  </p>
+</footer>
+
+
+  </body>
+</html>
