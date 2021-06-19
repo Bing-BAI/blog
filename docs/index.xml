@@ -5,16 +5,6 @@
     <link>https://bing-bai.github.io/blog/</link>
     <description>Recent content on Bing BAI</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 19 Jun 2021 15:20:15 +0900</lastBuildDate><atom:link href="https://bing-bai.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>First Post</title>
-      <link>https://bing-bai.github.io/blog/posts/first-post/</link>
-      <pubDate>Sat, 19 Jun 2021 15:20:15 +0900</pubDate>
-      
-      <guid>https://bing-bai.github.io/blog/posts/first-post/</guid>
-      <description>&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;</description>
-    </item>
-    
+    <language>en-us</language><atom:link href="https://bing-bai.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
