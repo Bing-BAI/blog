@@ -1,3 +1,12 @@
 [submodule "themes/hugo-notepadium"]
 	path = themes/hugo-notepadium
 	url = https://GitHub.com/cntrump/hugo-notepadium.git
+[submodule "themes/hugo-geekblog"]
+	path = themes/hugo-geekblog
+	url = git@github.com:thegeeklab/hugo-geekblog.git
+[submodule "themes/pulp"]
+	path = themes/pulp
+	url = git@github.com:koirand/pulp.git
+[submodule "themes/almeida-cv"]
+	path = themes/almeida-cv
+	url = git@github.com:ineesalmeida/almeida-cv.git
