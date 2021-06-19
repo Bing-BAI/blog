@@ -16,8 +16,7 @@ hasCJKLanguage = true
     avatarDescription = "M1 student @ Tokyo tech"
     favicon = "favicon.ico"
     description = """
-        Please write anything here.
-        Profiles, backgrounds, favorite things etc.
+        M1 student at Tokyo Tech. Focused on Machine Learning, Hyper-parameter Optimization, Model Compression etc.
     """
     publicationYear = "2021"
     # listPageDateFormat = "January, 2006" # See https://gohugo.io/functions/format/
