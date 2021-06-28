@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>
+      
+          Model Compression - Bing BAI
+      
+  </title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Bing BAI" />
+  <link rel="shortcut icon" type="image/x-icon" href="https://bing-bai.github.io/blog/img/favicon.ico">
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://bing-bai.github.io/blog/style.min.39acacc5d2051426f655a6b7fbf4786fbd0fd8fffd09322c9b497ef0f7439b3f.css" integrity="sha256-OaysxdIFFCb2Vaa3&#43;/R4b70P2P/9CTIsm0l&#43;8PdDmz8=">
+  
+  
+  
+  <link rel="stylesheet" href="https://bing-bai.github.io/blog/style-dark.min.0a647fb6c07e04b77b54fa0515d0a683d39ecdb251dba960fe1f966f7ff36fc2.css" media="(prefers-color-scheme: dark)" integrity="sha256-CmR/tsB&#43;BLd7VPoFFdCmg9OezbJR26lg/h&#43;Wb3/zb8I=">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  
+  
+
+  <meta property="og:title" content="Model Compression" />
+<meta property="og:description" content="Model Compression Introduction Choudhary&#43;, [A comprehensive survey on model compression and acceleration](https://link.springer.com/content/pdf/10.1007/s10462-020-09816-7.pdf), Artifcial Intelligence Review 2020 Table 2: summary of different methods for network compression.
+   Method strengths limitations     Knowledge Distill Can downsize a network regardless of the structural difference between the teacher and the student network can only be applied to classification tasks with softmax loss function   Low-Rank Factorization standard pipepline performed layer by layer, cannot perform global parameter compression   Data quantization significantly reduced memory usage and float-point operations Quantized weights make neural networks harder to converge   Pruning Can improve the inference time and model size vs accuracy tradeoff for a given architecture Generally, does not help as much as switching to a better architecture    Cheng&#43;, Model Compression and Acceleration for Deep Neural Networks: The Principles, Progress, and Challenges, Vol." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bing-bai.github.io/blog/posts/modelcompression/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-19T18:39:43&#43;09:00" />
+<meta property="article:modified_time" content="2021-06-19T18:39:43&#43;09:00" />
+
+<meta itemprop="name" content="Model Compression">
+<meta itemprop="description" content="Model Compression Introduction Choudhary&#43;, [A comprehensive survey on model compression and acceleration](https://link.springer.com/content/pdf/10.1007/s10462-020-09816-7.pdf), Artifcial Intelligence Review 2020 Table 2: summary of different methods for network compression.
+   Method strengths limitations     Knowledge Distill Can downsize a network regardless of the structural difference between the teacher and the student network can only be applied to classification tasks with softmax loss function   Low-Rank Factorization standard pipepline performed layer by layer, cannot perform global parameter compression   Data quantization significantly reduced memory usage and float-point operations Quantized weights make neural networks harder to converge   Pruning Can improve the inference time and model size vs accuracy tradeoff for a given architecture Generally, does not help as much as switching to a better architecture    Cheng&#43;, Model Compression and Acceleration for Deep Neural Networks: The Principles, Progress, and Challenges, Vol."><meta itemprop="datePublished" content="2021-06-19T18:39:43&#43;09:00" />
+<meta itemprop="dateModified" content="2021-06-19T18:39:43&#43;09:00" />
+<meta itemprop="wordCount" content="796">
+<meta itemprop="keywords" content="markdown,machine learning," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:image" content="https://bing-bai.github.io/blog//img/avatar.jpg"/>
+<meta name="twitter:title" content="Model Compression"/>
+<meta name="twitter:description" content="Model Compression Introduction Choudhary&#43;, [A comprehensive survey on model compression and acceleration](https://link.springer.com/content/pdf/10.1007/s10462-020-09816-7.pdf), Artifcial Intelligence Review 2020 Table 2: summary of different methods for network compression.
+   Method strengths limitations     Knowledge Distill Can downsize a network regardless of the structural difference between the teacher and the student network can only be applied to classification tasks with softmax loss function   Low-Rank Factorization standard pipepline performed layer by layer, cannot perform global parameter compression   Data quantization significantly reduced memory usage and float-point operations Quantized weights make neural networks harder to converge   Pruning Can improve the inference time and model size vs accuracy tradeoff for a given architecture Generally, does not help as much as switching to a better architecture    Cheng&#43;, Model Compression and Acceleration for Deep Neural Networks: The Principles, Progress, and Challenges, Vol."/>
+
+  <!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <![endif]-->
+
+  
+  
+</head>
+
+  <body>
+    
+  <h1>Model Compression</h1>
+  <header>
+  
+  <div class="avatar">
+    <img class="avatarMask" src="https://bing-bai.github.io/blog//img/avatar.jpg" alt="M1 student @ Tokyo tech">
+    <a href="https://bing-bai.github.io/blog/"><img class="avatar-border" src="https://bing-bai.github.io/blog//img/avatar-border.svg" alt=""></a>
+  </div>
+  
+  <h2><a class="author" href="https://bing-bai.github.io/blog/">Bing BAI</a></h2>
+</header>
+
+  
+  
+  
+  <p class="date">June 19, 2021</p>
+  
+  
+  
+  <div id="tags">
+    <ul>
+      
+        
+        
+          <li><a href="https://bing-bai.github.io/blog/tags/markdown/">markdown</a></li>
+        
+      
+        
+        
+          <li><a href="https://bing-bai.github.io/blog/tags/machine-learning/">machine learning</a></li>
+        
+      
+    </ul>
+  </div>
+  
+  
+  <div id="contentBody">
+    <h2 id="model-compression">Model Compression</h2>
+<h3 id="introduction">Introduction</h3>
+<img width="1359" alt="Screen Shot 2021-06-15 at 15.04.00.png (1.2 MB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/06/15/103347/588bd8eb-63e4-49e1-bb86-341ce1542cb3.png">
+Choudhary+, [A comprehensive survey on model compression and acceleration](https://link.springer.com/content/pdf/10.1007/s10462-020-09816-7.pdf), Artifcial Intelligence Review 2020
+<p>Table 2: summary of different methods for network compression.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>strengths</th>
+<th>limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knowledge Distill</td>
+<td>Can downsize a network regardless of the structural difference between the teacher and the student network</td>
+<td>can only be applied  to classification tasks with softmax loss function</td>
+</tr>
+<tr>
+<td>Low-Rank Factorization</td>
+<td>standard pipepline</td>
+<td>performed layer by layer, cannot perform global parameter compression</td>
+</tr>
+<tr>
+<td>Data quantization</td>
+<td>significantly reduced memory usage and float-point operations</td>
+<td>Quantized weights make neural networks harder to converge</td>
+</tr>
+<tr>
+<td>Pruning</td>
+<td>Can improve the inference time and model size vs accuracy tradeoff for a given architecture</td>
+<td>Generally, does not help as much as switching to a better architecture</td>
+</tr>
+</tbody>
+</table>
+<p>Cheng+, <a href="https://ieeexplore.ieee.org/document/8253600">Model Compression and Acceleration for Deep Neural Networks: The Principles,
+Progress, and Challenges</a>, Vol.35, pp.126-136, 2018</p>
+<h3 id="low-rank-factorization">Low-Rank Factorization</h3>
+<p>In low-rank factorization, a weight matrix A with m × n dimension and having rank r is replaced by smaller dimension matrices.
+In feed-forward NN and CNN, singular value decomposition (SVD) is a common and popular factorization scheme for reducing the number of parameters.
+SVD factorize the original weight matrix into three smaller matrices, replacing the original weight matrix. For any matrix A ∈ ℝm×n , there exists a factorization, A = U S V^(T) . Where, U ∈ ℝ^(m×r) , S ∈ ℝ^(r×r) , and V^T ∈ ℝ^(r×n) . S is a diagonal matrix with the singular values on the diagonal, U and V are orthogonal matrices.
+Each entry in the S is larger than the next diagonal entry. When reducing the model size is necessary, low- rank factorization techniques help by factorizing a large matrix into smaller matrices.
+Yu+, <a href="https://ieeexplore.ieee.org/document/8099498">On Compressing Deep Models by Low Rank and Sparse Decomposition</a></p>
+<h3 id="knowledge-distillation">Knowledge Distillation</h3>
+<p>Knowledge Distilled: The basic idea of KD is to distill knowledge from a large teacher model into a small one by learning the class distributions output by the teacher via softened softmax.</p>
+<p>Mishra+, <a href="https://openreview.net/forum?id=B1ae1lZRb&amp;noteId=B1e0XDKXf">Apprentice: using knowledge distillation techniques to improve low-precision network accuracy</a>,  ICLR2018</p>
+<h3 id="data-quantization">data quantization</h3>
+<p>In quantization, we represent weights by reducing the number of bits required per weight to store each weight. This idea can also be further extended to represent gradient and activation in the quantized form. The weights can be quantized to 16-bit, 8-bit, 4-bit or even with 1-bit (which is a particular case of quantization, in which weights are represented with binary values only, known as weight binarization).</p>
+<p>our model is implemented by scala, the  parameter is  in<a href="https://www.tutorialspoint.com/scala/scala_data_types.htm"> double</a>: 64 bit, float: 32 bit, integer: 32 bit.</p>
+<ul>
+<li>
+<p>QAT Quantizer
+<a href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Jacob_Quantization_and_Training_CVPR_2018_paper.pdf">Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference</a>, CVPR2018</p>
+<ul>
+<li>Weights are quantized before they are convolved with the input. If batch normalization is used for the layer, the batch normalization parameters are “folded into” the weights before quantization.
+Activations are quantized at points where they would be during inference, e.g. after the activation function is applied to a convolutional or fully connected layer’s output, or after a bypass connection adds or concatenates the outputs of several layers together such as in ResNets.</li>
+</ul>
+</li>
+<li>
+<p>BNN Quantizer
+<a href="https://arxiv.org/abs/1602.02830">Binarized Neural Networks: Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1</a></p>
+</li>
+</ul>
+<h3 id="pruning">pruning</h3>
+<p>pruning:  remove parameters which have least effect on the accuracy of the network, which can reduce model complexity and mitigate the over-ﬁtting issue.</p>
+<ul>
+<li>
+<p>Weight pruning: In unimportant weight connection pruning, we prunes (zeros out) the
+weight connections if they are below some predefned threshold (Han et al. 2015) or if
+they are redundant.
+Han+, <a href="https://arxiv.org/abs/1506.02626">Learning both Weights and Connections for Efficient Neural Networks</a>, NIPS 2015</p>
+</li>
+<li>
+<p>Neuron pruning: Instead of removing the weights one by one, which is a timeconsuming process, we can also remove the individual neurons if they are redundant
+(Srinivas and Babu 2015). In that case, all the incoming and outgoing connection of the
+neuron will also be removed. There are many other ways of removing individual weight
+connections or neurons.
+Srinivas+, <a href="https://arxiv.org/abs/1507.06149">Data-free parameter pruning for Deep Neural Networks</a>, BMVC 2015</p>
+</li>
+<li>
+<p>Filter pruning: In flter pruning, flters are ranked according to their importance, and the
+least important (least ranking) flters are removed from the network. The importance of
+the flters can be calculated by L1/L2 norm (Li et al. 2017) or some other methods like
+their infuence on the error.
+Li+, <a href="https://arxiv.org/abs/1608.08710">Pruning Filters for Efficient ConvNets</a>, ICLR 2017</p>
+</li>
+<li>
+<p>Layer pruning: Similarly, from a very deep network, some of the layers can also be
+pruned (Chen and Zhao 2018).
+Chen+, <a href="https://ieeexplore.ieee.org/document/8485719">Shallowing Deep Networks: Layer-Wise Pruning Based on Feature Representations</a>, IEEE Transactions on Pattern Analysis and Machine Intelligence, Vol. 41, Iss. 12, pp. 3048 - 3056, 2019</p>
+</li>
+</ul>
+<h3 id="criteria">criteria</h3>
+<p>The stsndard criteria to measure the quality of model compression and acceleration are the compression rate and the speedup rate.
+<img width="1217" alt="Screen Shot 2021-06-15 at 15.27.31.png (350.7 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/06/15/103347/2b991ac8-6664-4b99-952c-386cb8437cb1.png"></p>
+<p>table source:  Choudhary+, <a href="https://link.springer.com/content/pdf/10.1007/s10462-020-09816-7.pdf">A comprehensive survey on model compression and acceleration</a>, Artifcial Intelligence Review 2020</p>
+
+  </div>
+  <footer>
+  <p>
+  &copy; 2021 Bing BAI.
+  Powered by <a href="https://gohugo.io/">Hugo</a>
+  using the <a href="https://github.com/koirand/pulp/">pulp</a> theme.
+  </p>
+</footer>
+
+
+  </body>
+</html>

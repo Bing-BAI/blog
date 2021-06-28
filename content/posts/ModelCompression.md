@@ -85,41 +85,7 @@ The stsndard criteria to measure the quality of model compression and accelerati
 
 table source:  Choudhary+, [A comprehensive survey on model compression and acceleration](https://link.springer.com/content/pdf/10.1007/s10462-020-09816-7.pdf), Artifcial Intelligence Review 2020
 
-## Relation to current baseline model 
 
-### Current Model
-
-| Model | Configuration | average Accuracy on same dataset|
-| -------- | -------- | -------- |
-| Tsukijinet |   4 layer CNN      |   78.06%   |
-| Tukijinet2021（reproduced model） |4 layer CNN, with batch normalization  |78.76%  |
-
-- original tsukijinet
-<img width="480" alt="conf_2di-CNN_eng.png (79.0 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/06/15/103347/8f5441cb-3e3b-473a-9dba-b9c204435458.png">
-
-```
-fs:/records/documents/researches/2016/master201701/tsukiji/submission/m2thesis_tsukiji_submission.pdf
-```
-- tusikijinet2021
-<img width="502.08" alt="tsukijinet2021.png (143.4 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/06/16/103347/f9676819-b5a6-4c0c-af07-545492a6c48d.png">
-
-### Proposed Methods
-- Rough Ideas:
-1. to improve accuracy -> HPO process -> latency / energy cost increased ->  Model Compression
-
-
-- HPO process
-   * HPO  -> improve accuracy -> Model Compression (considered lantency, power cost) 
-   * HPO: treat random search as a base method, apply Baysian Optimization(HPBO)
-- Model Compression: 
-  - quantization
-  - pruning
-
-- Metrics
-  - Accuracy
-  - Latency
-  - power consumption
-  - number of parameters
 
 
 

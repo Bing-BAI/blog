@@ -18,10 +18,10 @@
     
     <item>
       <title>Model Compression</title>
-      <link>https://bing-bai.github.io/blog/posts/first-post/</link>
+      <link>https://bing-bai.github.io/blog/posts/modelcompression/</link>
       <pubDate>Sat, 19 Jun 2021 18:39:43 +0900</pubDate>
       
-      <guid>https://bing-bai.github.io/blog/posts/first-post/</guid>
+      <guid>https://bing-bai.github.io/blog/posts/modelcompression/</guid>
       <description>Model Compression Introduction Choudhary+, [A comprehensive survey on model compression and acceleration](https://link.springer.com/content/pdf/10.1007/s10462-020-09816-7.pdf), Artifcial Intelligence Review 2020 Table 2: summary of different methods for network compression.
    Method strengths limitations     Knowledge Distill Can downsize a network regardless of the structural difference between the teacher and the student network can only be applied to classification tasks with softmax loss function   Low-Rank Factorization standard pipepline performed layer by layer, cannot perform global parameter compression   Data quantization significantly reduced memory usage and float-point operations Quantized weights make neural networks harder to converge   Pruning Can improve the inference time and model size vs accuracy tradeoff for a given architecture Generally, does not help as much as switching to a better architecture    Cheng+, Model Compression and Acceleration for Deep Neural Networks: The Principles, Progress, and Challenges, Vol.</description>
     </item>
