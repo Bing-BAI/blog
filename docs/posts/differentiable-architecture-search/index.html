@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>
+      
+          Differentiable Architecture Search - Bing BAI
+      
+  </title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Bing BAI" />
+  <link rel="shortcut icon" type="image/x-icon" href="https://bing-bai.github.io/blog/img/favicon.ico">
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://bing-bai.github.io/blog/style.min.39acacc5d2051426f655a6b7fbf4786fbd0fd8fffd09322c9b497ef0f7439b3f.css" integrity="sha256-OaysxdIFFCb2Vaa3&#43;/R4b70P2P/9CTIsm0l&#43;8PdDmz8=">
+  
+  
+  
+  <link rel="stylesheet" href="https://bing-bai.github.io/blog/style-dark.min.0a647fb6c07e04b77b54fa0515d0a683d39ecdb251dba960fe1f966f7ff36fc2.css" media="(prefers-color-scheme: dark)" integrity="sha256-CmR/tsB&#43;BLd7VPoFFdCmg9OezbJR26lg/h&#43;Wb3/zb8I=">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  
+  
+
+  <meta property="og:title" content="Differentiable Architecture Search" />
+<meta property="og:description" content="NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
+  Search Space: Defines which architecture can be represented in principle,
+  Search Strategy: Detail on how to explore search space
+ often exponentially large or even unbounded    Performance Estimation Strategy: estimating an architecture&rsquo;s performance
+ standard training and validation of architecture on data may be computionally expensive and limits number of architectures that can be explored    Cell based Search Space:  the NASNet search space (Zoph et al." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bing-bai.github.io/blog/posts/differentiable-architecture-search/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-11T00:44:32&#43;09:00" />
+<meta property="article:modified_time" content="2021-07-11T00:44:32&#43;09:00" />
+
+<meta itemprop="name" content="Differentiable Architecture Search">
+<meta itemprop="description" content="NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
+  Search Space: Defines which architecture can be represented in principle,
+  Search Strategy: Detail on how to explore search space
+ often exponentially large or even unbounded    Performance Estimation Strategy: estimating an architecture&rsquo;s performance
+ standard training and validation of architecture on data may be computionally expensive and limits number of architectures that can be explored    Cell based Search Space:  the NASNet search space (Zoph et al."><meta itemprop="datePublished" content="2021-07-11T00:44:32&#43;09:00" />
+<meta itemprop="dateModified" content="2021-07-11T00:44:32&#43;09:00" />
+<meta itemprop="wordCount" content="1138">
+<meta itemprop="keywords" content="markdown,machine learning," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:image" content="https://bing-bai.github.io/blog//img/avatar.jpg"/>
+<meta name="twitter:title" content="Differentiable Architecture Search"/>
+<meta name="twitter:description" content="NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
+  Search Space: Defines which architecture can be represented in principle,
+  Search Strategy: Detail on how to explore search space
+ often exponentially large or even unbounded    Performance Estimation Strategy: estimating an architecture&rsquo;s performance
+ standard training and validation of architecture on data may be computionally expensive and limits number of architectures that can be explored    Cell based Search Space:  the NASNet search space (Zoph et al."/>
+
+  <!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <![endif]-->
+
+  
+  
+</head>
+
+  <body>
+    
+  <h1>Differentiable Architecture Search</h1>
+  <header>
+  
+  <div class="avatar">
+    <img class="avatarMask" src="https://bing-bai.github.io/blog//img/avatar.jpg" alt="M1 student @ Tokyo tech">
+    <a href="https://bing-bai.github.io/blog/"><img class="avatar-border" src="https://bing-bai.github.io/blog//img/avatar-border.svg" alt=""></a>
+  </div>
+  
+  <h2><a class="author" href="https://bing-bai.github.io/blog/">Bing BAI</a></h2>
+</header>
+
+  
+  
+  
+  <p class="date">July 11, 2021</p>
+  
+  
+  
+  <div id="tags">
+    <ul>
+      
+        
+        
+          <li><a href="https://bing-bai.github.io/blog/tags/markdown/">markdown</a></li>
+        
+      
+        
+        
+          <li><a href="https://bing-bai.github.io/blog/tags/machine-learning/">machine learning</a></li>
+        
+      
+    </ul>
+  </div>
+  
+  
+  <div id="contentBody">
+    <h2 id="nas-general-problem-setup">NAS: General Problem Setup</h2>
+<h3 id="overview">Overview</h3>
+<img width="936" alt="Screen Shot 2021-07-06 at 17.59.43.png (86.0 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/07/06/103347/e1161571-e2ea-4ebc-8890-258efeff760f.png">
+<ul>
+<li>
+<p>source: Elksen et al., <a href="https://arxiv.org/pdf/1808.05377.pdf">Neural Architecture Search: A survey</a>, 2018</p>
+</li>
+<li>
+<p>Search Space: Defines which architecture can be represented in principle,</p>
+</li>
+<li>
+<p>Search Strategy: Detail on how to explore search space</p>
+<ul>
+<li>often exponentially large or even unbounded</li>
+</ul>
+</li>
+<li>
+<p>Performance Estimation Strategy: estimating an architecture&rsquo;s performance</p>
+<ul>
+<li>standard training and validation of architecture on data may be computionally expensive and limits number of architectures that can be explored</li>
+</ul>
+</li>
+</ul>
+<h3 id="cell-based-search-space">Cell based Search Space:</h3>
+<ul>
+<li>the NASNet search space (Zoph et al. 2018) defines the architecture of a conv net as the same cell getting repeated multiple times and each cell contains several operations predicted by the NAS algorithm.</li>
+<li>a small directed acyclic graph representing a feature transformation</li>
+<li>NASNet search space: Learns 2 types of cells:
+<ul>
+<li>Normal Cell: Input and output feature maos have same dimension</li>
+<li>Reduction Cell: Output feature map has width the height reduced by half</li>
+</ul>
+</li>
+</ul>
+  <img width="464" alt="Screen Shot 2021-07-07 at 3.17.55.png (103.1 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/07/07/103347/9347b543-2f0b-4f1b-ab5d-f3dd88710791.png">
+<ul>
+<li>Zoph et al., <a href="https://arxiv.org/pdf/1707.07012.pdf">Learning Transferable Architectures for Scalable Image Recognition</a>, CVPR 2018</li>
+</ul>
+<h4 id="pros">pros</h4>
+<ul>
+<li>A well-designed cell module enables transferability between datasets.</li>
+<li>easy to scale down or up the model size by adjusting the number of cell repeats.</li>
+</ul>
+<h4 id="cons">cons</h4>
+<ul>
+<li>arrangement of operation is restricted</li>
+<li>Suppose CNN can be obtained by stacking the same Cell, and RNN can be obtained by recursive connection of the same Cell</li>
+</ul>
+<h2 id="comparision-of-different-methods">Comparision of different methods</h2>
+<img width="776" alt="Screen Shot 2021-07-07 at 2.21.50.png (184.1 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/07/07/103347/b1f1172b-573d-4b8c-9299-347f5f04b0d3.png">
+<ul>
+<li>Comparison with state-of-the-art architectures on ImageNet (mobile setting)</li>
+</ul>
+<p>Table source: Chen +,<a href="https://openaccess.thecvf.com/content_ICCV_2019/papers/Chen_Progressive_Differentiable_Architecture_Search_Bridging_the_Depth_Gap_Between_Search_ICCV_2019_paper.pdf"> Progressive Differentiable Architecture Search:Bridging the Depth Gap between Search and Evaluation</a>, ICCV 2019</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Reinforcement Learning</th>
+<th>Evolution Algorithm</th>
+<th>Differentiable Search</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Computation cost</td>
+<td>High</td>
+<td>High</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Search space</td>
+<td>Large</td>
+<td>Large</td>
+<td>Restricted</td>
+</tr>
+</tbody>
+</table>
+<h2 id="differentiable-architecture-search-gradient-based-method">Differentiable Architecture Search: Gradient-based method</h2>
+<p>Liu et al., <a href="https://arxiv.org/pdf/1806.09055.pdf">DARTS: Differentiable Architecture Search</a>, ICLR 2019</p>
+<h3 id="overview-of-darts">Overview of DARTS</h3>
+<img width="773" alt="Screen Shot 2021-07-06 at 19.36.03.png (250.4 kB)"  src="https://img.esa.io/uploads/production/attachments/14973/2021/07/06/103347/2e333080-419f-43c9-8030-bb020b07d183.png">
+<ul>
+<li>(a) Operations on the edges are initially unknown</li>
+<li>(b)  Continuous relaxation of the search space by placing a mixture of candidate opeartions on each edge.</li>
+<li>(c) Joint optimization of the mixing probabilities and the network weights by solving a bilevel optimization problem.</li>
+<li>(d) Inducing the final architecture  from the learned mixing probabilities</li>
+</ul>
+<h3 id="continuous-relaxation-and-optimization">Continuous relaxation and optimization</h3>
+<h4 id="relaxation">Relaxation</h4>
+<ul>
+<li>The operation mixing weights for a pair of nodes $(i, j)$ are parameterized by a vector  in $\alpha^{(i, j)}$ of dimension $ |\mathcal O|$</li>
+<li>The method relaxes categorical chioce of a particular operation as a softmax over all operations</li>
+</ul>
+<p>$$  \overline{o} ^{(i,j)}(x) = \sum_{o\in \mathcal O}\frac{exp(\alpha_{o}^{ij})} { \sum_{o^{'} \in \mathcal O} exp(\alpha_{o^{'} } ^{(i,j)} ) }o(x)$$</p>
+<ul>
+<li>This task of architecture search then reduces  to learning a set of continuous variables  $\alpha = \lbrace\alpha^{(i, j)} \rbrace$</li>
+<li>At the end of search, obatain discrete architecture  by replacing each mixed operation $  { \overline{o} }^{(i,j)} $ with the most likely operation, i.e. $o^{(i,j)} = \underset{o \in \mathcal O}{argmax} \ \alpha_{o}^{(i, j)} $</li>
+</ul>
+<h4 id="optimization">Optimization</h4>
+<ul>
+<li>
+<p>After relaxation, our goal is to  jointly learn architecture $\alpha$ and the weights $w$ within all the mixed operations (e.g. weight of the convolution filters)</p>
+</li>
+<li>
+<p>The goal for archiutecture is to find $\alpha^{*}$ that minimizes the validation loss $\mathcal L_{train} (w^{*}, \alpha^{*})$,</p>
+</li>
+<li>
+<p>where the weights $ w^{*} $ assiciated with the architecture are obtained by minimizing the train loss $w^{*} = \underset{w}{argmin}  \mathcal L_{train} (w, \alpha^{*}) $</p>
+</li>
+<li>
+<p>This implies a bilevel optimization problem with $\alpha$ as the upper-level variable and $w$ as the lower-level variable</p>
+</li>
+</ul>
+<p>$$ \underset{\alpha}{min} {\mathcal L}_{val}(w^{*}(\alpha), \alpha) $$</p>
+<p>$$ s.t. \  w^{*} (\alpha) = \underset{w}{argmin}  \mathcal L_{train} (w, \alpha)  $$</p>
+<h3 id="approximate-architecture-gradient">Approximate Architecture Gradient</h3>
+<ul>
+<li>evalute the gradient exactly can be prohibitive due to the inner optimizartion is expensive.</li>
+<li>an approximation scheme as follows:</li>
+</ul>
+<p>$$ \nabla_{\alpha} {\mathcal L_{val}(w^{*}(\alpha), \alpha)}\approx \nabla_{\alpha}{\mathcal L_{val}(w - \xi \nabla_{w}{\mathcal L_{train} (w,\alpha), \alpha} )}$$</p>
+<ul>
+<li>
+<p>the idea is to approximate $w^{*}(\alpha)$ by adapting $w$ using only a single training step using learning rate $\xi$ without solving the inner optimization $w^{*} (\alpha) = \underset{w}{argmin}  \mathcal L_{train} (w, \alpha) $ completely by training until convergence.</p>
+</li>
+<li>
+<p>The procedure is outlined as Algotithm 1:</p>
+</li>
+</ul>
+<img width="952" alt="Screen Shot 2021-07-06 at 20.20.46.png (127.1 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/07/06/103347/442ebfa7-e3cd-4ea0-a0bf-04a36c6e82e2.png">
+<ul>
+<li>
+<p>Apply chain rule to the approximate architecture  gradient can get:
+$$\color{red}{\nabla_{\alpha}}{\mathcal L_{val}(w - \xi \nabla_{w}{\mathcal L_{train} (w,\color{red}{\alpha}), \color{red}{\alpha}} )} = \color{blue}{\nabla_{\alpha}} {\mathcal L_{val}(w^{'},\color{blue}{\alpha})} - \xi \nabla_{\alpha, w}^{2} {\mathcal L_{train}}(w,\alpha)\cdot \color{blue}{\nabla_{w^{'}}} {\mathcal L_{val}}(\color{blue}{w^{'}},\alpha)$$</p>
+</li>
+<li>
+<p>where $w^{'} = w - \xi \nabla_{w}\mathcal L_{train} (w,\alpha)$ denoted the weights for a one-step forward model.</p>
+</li>
+</ul>
+<hr>
+<p><em>Induction:</em>
+$$ \nabla_{\alpha} f(g_{1}(\alpha), g_{2}(\alpha))=\color{blue}{D_{1}f(g_{1}(\alpha), g_{2}(\alpha))}   \cdot \color {red}{\nabla_{\alpha} g_{1}(\alpha)}  +\color{blue}{D_{2}f(g{1}(\alpha), g_{2}(\alpha))}  \cdot \color {red}{\nabla_{\alpha} g_{2}(\alpha)} $$</p>
+<ul>
+<li>$f(\cdot,\cdot) = {\mathcal L{val}}  (\cdot, \cdot) $</li>
+<li>$g_{1}(\alpha) = w^{'} = w - \xi \nabla{w}\mathcal L{train} (w,\alpha)$</li>
+<li>$g_{2}(\alpha)  = \alpha$</li>
+</ul>
+<p><em>Differentiate:</em></p>
+<ul>
+<li>$\nabla_{\alpha}  g_{1}(\alpha) = - \xi \nabla{\alpha, w}^{2} \mathcal L{train} (w,\alpha)$</li>
+<li>$\nabla_{\alpha} g_{2}(\alpha) = 1$</li>
+<li>$D{1}f(g_{1}(\alpha), g_{2}(\alpha)) =  \color{blue}{\nabla{w^{'}}} {\mathcal L{val}}(\color{blue}{w^{'}},\alpha)$</li>
+<li>$D{2}f(g_{1}(\alpha), g_{2}(\alpha)) = \color{blue}{\nabla{\alpha}} {\mathcal L{val}(w^{'},\color{blue}{\alpha})}$</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>the expression above contains an expensive matrix-vector product in its second term. Reduce it using finite difference approximation. Let $\epsilon$ be a small scalar $\epsilon = \frac {0.01} { {\lVert \color{blue}{\nabla{\alpha}} {\mathcal L{val}(w^{'},\color{blue}{\alpha})} \rVert}_{ 2 }    }$</p>
+</li>
+<li>
+<p>and  $w^{\pm} = w \pm \epsilon  \color{blue}{\nabla_{w^{'}}} {\mathcal L_{val}}(\color{blue}{w^{'}},\alpha) $</p>
+</li>
+<li>
+<p>Then</p>
+<p>$$\nabla_{\alpha, w}^{2} {\mathcal L_{train}}(w,\alpha)\cdot \color{blue}{\nabla_{w^{'}}} {\mathcal L_{val}}(\color{blue}{w^{'}},\alpha) \approx \frac {\nabla_{\alpha} {\mathcal L_{train}} (w^{+}, \alpha) - \nabla_{\alpha} {\mathcal L_{train}} (w^{-}, \alpha) } {2 \epsilon}  $$</p>
+</li>
+<li>
+<p>the Complexity reduced from $O(|\alpha | |w|)$ to $O(|\alpha | +  |w|)$</p>
+</li>
+</ul>
+<hr>
+<p><em>Induction:</em>
+<em>We know the Taylor series</em> :
+$$ f(x) = f(x_0) +  \frac {f^{'}(x_0)}{ 1!} (x-x_0)+ \frac {f^{''}(x_0)}{ 2!} (x-x_0)^2 + \cdots$$</p>
+<p><em>Let  $ x =  x_0 + hA$</em> and $ x =  x_0 - hA $, we can induct the following expressions:</p>
+<ul>
+<li>$f(x_{0} + hA)  = f(x_0) + \frac {f^{'} (x_0) }{ 1!}hA + \cdots $</li>
+<li>$ f(x_{0} - hA) = f(x_0) -\frac {f^{'} (x_0) }{ 1!}hA  + \cdots $</li>
+<li>$f^{'} (x_{0} )\cdot A \approx  \frac {f(x_{0} + hA )-f(x_{0} - hA )} { 2h } $</li>
+</ul>
+<p><em>Then replace items by :</em></p>
+<ul>
+<li>$h = \epsilon$</li>
+<li>$A =  \color{blue}{\nabla_{w^{'}}} {\mathcal L_{val}}(\color{blue}{w^{'}},\alpha) $</li>
+<li>$x_{0} = w$</li>
+<li>$f(\cdot, \cdot) = \nabla_{\alpha} {\mathcal L_{train}(\cdot, \cdot)}$</li>
+</ul>
+<hr>
+<h3 id="experiment-and-result">experiment and result</h3>
+<h4 id="experiment-setting">experiment setting</h4>
+<ul>
+<li>following operations are included in $\mathcal O$
+<ul>
+<li>3 × 3 <a href="https://towardsdatascience.com/types-of-convolutions-in-deep-learning-717013397f4d">dilated separable convolution </a></li>
+<li>5 × 5 dilated separable convolution</li>
+<li>3 × 3 <a href="https://towardsdatascience.com/a-basic-introduction-to-separable-convolutions-b99ec3102728">depth-wise separable convolution</a></li>
+<li>5 × 5 depth-wise separable convolution</li>
+<li>3 × 3 max pooling</li>
+<li>3 × 3 average pooling,</li>
+<li>no connection (zero)</li>
+<li>and a skip connection (identity)</li>
+</ul>
+</li>
+</ul>
+<img width="820" alt="Screen Shot 2021-07-07 at 3.14.07.png (230.3 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/07/07/103347/757635ac-0f07-4366-bea7-d63e44047246.png">
+<h4 id="result">result</h4>
+<ul>
+<li>
+<p>CNN <img width="814" alt="Screen Shot 2021-07-07 at 3.33.52.png (354.8 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/07/07/103347/9ced0fd7-4ed0-4b28-a7d7-00d2d29b2841.png"></p>
+</li>
+<li>
+<p>RNN <img width="813" alt="Screen Shot 2021-07-07 at 3.34.58.png (278.3 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/07/07/103347/ae3c5a6f-0f3d-468e-aa60-04bace3fd142.png"></p>
+</li>
+<li>
+<p>The performanc by ENAS(RL method) looks similar to the NAS, I will explore it next time.</p>
+</li>
+<li>
+<p>Pham et al., <a href="https://arxiv.org/pdf/1802.03268.pdf">Efficient Neural Architecture Search via Parameter Sharing </a>, ICML 2018</p>
+</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<ul>
+<li>DARTS is able to greatly reduce the cost of GPU hours. Their experiments for searching for CNN cells have 7 Nodes  and only took 1.5 days with a single GPU.</li>
+<li>However, it suffers from the high GPU memory consumption issue due to its continuous representation of network architecture.</li>
+</ul>
+<h2 id="candidate-nas-for-my-research">Candidate NAS for my research</h2>
+<ul>
+<li>Random Search (as baseline)</li>
+<li>DARTS (Gradient)</li>
+<li>ENAS (RL+ parameter sharing)</li>
+</ul>
+<h2 id="possible-future-direction">Possible future direction</h2>
+<ul>
+<li>Search efficiency</li>
+<li>Moving towards less constrained Search Space</li>
+<li>Designing efficient architectures: automated scaling, pruning and quantization (model compression techniques metioned at  last bw meeting)</li>
+</ul>
+<h2 id="material-to-learn-about-nas">Material To learn about NAS:</h2>
+<p>[1] <a href="https://lilianweng.github.io/lil-log/2020/08/06/neural-architecture-search.html#evolutionary-algorithms">https://lilianweng.github.io/lil-log/2020/08/06/neural-architecture-search.html#evolutionary-algorithms</a>
+[2] <a href="https://hangzhang.org/ECCV2020/">https://hangzhang.org/ECCV2020/</a></p>
+<h2 id="engineering-part">Engineering part</h2>
+<ul>
+<li>The implementation of DARTS is available at <a href="https://github.com/quark0/darts">https://github.com/quark0/darts</a></li>
+<li>Apply it on my current research domain to see the performance?</li>
+</ul>
+
+  </div>
+  <footer>
+  <p>
+  &copy; 2021 Bing BAI.
+  Powered by <a href="https://gohugo.io/">Hugo</a>
+  using the <a href="https://github.com/koirand/pulp/">pulp</a> theme.
+  </p>
+</footer>
+
+
+  </body>
+</html>
