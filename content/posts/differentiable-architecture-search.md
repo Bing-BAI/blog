@@ -7,6 +7,26 @@ tags: [
     "machine learning"
 ]
 ---
+<style TYPE="text/css">
+code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}
+</style>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] // removed 'code' entry
+    }
+});
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML-full"></script>
+
+
 ## NAS: General Problem Setup
 ### Overview
 <img width="936" alt="Screen Shot 2021-07-06 at 17.59.43.png (86.0 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/07/06/103347/e1161571-e2ea-4ebc-8890-258efeff760f.png">

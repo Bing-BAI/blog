@@ -28,32 +28,26 @@
   
 
   <meta property="og:title" content="Differentiable Architecture Search" />
-<meta property="og:description" content="NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
+<meta property="og:description" content="code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}  MathJax.Hub.Config({ tex2jax: { inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]], skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;] // removed &#39;code&#39; entry } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(), i; for(i = 0; i  NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
   Search Space: Defines which architecture can be represented in principle,
-  Search Strategy: Detail on how to explore search space
- often exponentially large or even unbounded    Performance Estimation Strategy: estimating an architecture&rsquo;s performance
- standard training and validation of architecture on data may be computionally expensive and limits number of architectures that can be explored    Cell based Search Space:  the NASNet search space (Zoph et al." />
+  Search Strategy: Detail on how to explore search space" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bing-bai.github.io/blog/posts/differentiable-architecture-search/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-07-11T00:44:32&#43;09:00" />
 <meta property="article:modified_time" content="2021-07-11T00:44:32&#43;09:00" />
 
 <meta itemprop="name" content="Differentiable Architecture Search">
-<meta itemprop="description" content="NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
+<meta itemprop="description" content="code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}  MathJax.Hub.Config({ tex2jax: { inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]], skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;] // removed &#39;code&#39; entry } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(), i; for(i = 0; i  NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
   Search Space: Defines which architecture can be represented in principle,
-  Search Strategy: Detail on how to explore search space
- often exponentially large or even unbounded    Performance Estimation Strategy: estimating an architecture&rsquo;s performance
- standard training and validation of architecture on data may be computionally expensive and limits number of architectures that can be explored    Cell based Search Space:  the NASNet search space (Zoph et al."><meta itemprop="datePublished" content="2021-07-11T00:44:32&#43;09:00" />
+  Search Strategy: Detail on how to explore search space"><meta itemprop="datePublished" content="2021-07-11T00:44:32&#43;09:00" />
 <meta itemprop="dateModified" content="2021-07-11T00:44:32&#43;09:00" />
-<meta itemprop="wordCount" content="1138">
+<meta itemprop="wordCount" content="1176">
 <meta itemprop="keywords" content="markdown,machine learning," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:image" content="https://bing-bai.github.io/blog//img/avatar.jpg"/>
 <meta name="twitter:title" content="Differentiable Architecture Search"/>
-<meta name="twitter:description" content="NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
+<meta name="twitter:description" content="code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}  MathJax.Hub.Config({ tex2jax: { inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]], skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;] // removed &#39;code&#39; entry } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(), i; for(i = 0; i  NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
   Search Space: Defines which architecture can be represented in principle,
-  Search Strategy: Detail on how to explore search space
- often exponentially large or even unbounded    Performance Estimation Strategy: estimating an architecture&rsquo;s performance
- standard training and validation of architecture on data may be computionally expensive and limits number of architectures that can be explored    Cell based Search Space:  the NASNet search space (Zoph et al."/>
+  Search Strategy: Detail on how to explore search space"/>
 
   <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -106,7 +100,25 @@
   
   
   <div id="contentBody">
-    <h2 id="nas-general-problem-setup">NAS: General Problem Setup</h2>
+    <style TYPE="text/css">
+code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}
+</style>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] // removed 'code' entry
+    }
+});
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML-full"></script>
+<h2 id="nas-general-problem-setup">NAS: General Problem Setup</h2>
 <h3 id="overview">Overview</h3>
 <img width="936" alt="Screen Shot 2021-07-06 at 17.59.43.png (86.0 kB)" src="https://img.esa.io/uploads/production/attachments/14973/2021/07/06/103347/e1161571-e2ea-4ebc-8890-258efeff760f.png">
 <ul>

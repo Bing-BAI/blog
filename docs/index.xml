@@ -13,11 +13,9 @@
       <pubDate>Sun, 11 Jul 2021 00:44:32 +0900</pubDate>
       
       <guid>https://bing-bai.github.io/blog/posts/differentiable-architecture-search/</guid>
-      <description>NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
+      <description>code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}  MathJax.Hub.Config({ tex2jax: { inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]], skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;] // removed &#39;code&#39; entry } }); MathJax.Hub.Queue(function() { var all = MathJax.Hub.getAllJax(), i; for(i = 0; i  NAS: General Problem Setup Overview   source: Elksen et al., Neural Architecture Search: A survey, 2018
   Search Space: Defines which architecture can be represented in principle,
-  Search Strategy: Detail on how to explore search space
- often exponentially large or even unbounded    Performance Estimation Strategy: estimating an architecture&amp;rsquo;s performance
- standard training and validation of architecture on data may be computionally expensive and limits number of architectures that can be explored    Cell based Search Space:  the NASNet search space (Zoph et al.</description>
+  Search Strategy: Detail on how to explore search space</description>
     </item>
     
     <item>
